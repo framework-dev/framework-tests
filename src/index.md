@@ -1,6 +1,6 @@
 # Framework Tests
 
-This site is using a getNotebook() component to access all the cells of the notebook at https://api.observablehq.com/@shadoof/nb4fw :
+This site is using a getNotebook() component to access all the cells of the notebook at https://observablehq.com/@shadoof/nb4fw :
 
 ---
 
