@@ -1,5 +1,3 @@
-# Embedded Notebook Test
-
 notebook: https://observablehq.com/@dhowe/test-embed-function.js
 
 ---
@@ -16,7 +14,7 @@ container.replaceChildren();
 new Runtime().module(notebook, name => {
   const node = document.createElement("div");
   const inspector = new Inspector(node);
-  
+
   inspector.original = inspector.fulfilled; // preserve default fulfilled
   
   inspector.fulfilled = (value) => {  // override fulfilled
