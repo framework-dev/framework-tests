@@ -1,4 +1,4 @@
-notebook: https://observablehq.com/@dhowe/test-embed-function.js
+notebook: https://observablehq.com/@dhowe/test-embed-function
 
 ---
 
