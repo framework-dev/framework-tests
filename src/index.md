@@ -11,7 +11,7 @@ import notebook from "https://api.observablehq.com/@dhowe/test-embed-function.js
 let container = document.getElementById("notebook-div");
 container.replaceChildren();
 
-new Runtime().module(notebook, name => {
+new Runtime().module(notebook, name => {   // hack: is there a better way to do this?
   const node = document.createElement("div");
   const inspector = new Inspector(node);
 
