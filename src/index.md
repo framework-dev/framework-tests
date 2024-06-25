@@ -1,12 +1,31 @@
-# Framework Tests
+# Embedded Notebook Test
 
-This site is using a getNotebook() component to access all the cells of the notebook at https://observablehq.com/@shadoof/nb4fw :
+notebook: https://observablehq.com/@dhowe/test-embed-function.js
 
 ---
 
+<div id="notebook-div"></div>
+
 ```js
-import define from "https://api.observablehq.com/@shadoof/nb4fw.js?v=3";
-import { getNotebook } from "./components/getNotebook.js";
-getNotebook(define);
+import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+import notebook from "https://api.observablehq.com/@dhowe/test-embed-function.js?v=4";
+
+let container = document.getElementById("notebook-div");
+container.replaceChildren();
+
+new Runtime().module(notebook, name => {
+  const node = document.createElement("div");
+  const inspector = new Inspector(node);
+  inspector.original = inspector.fulfilled;
+  inspector.fulfilled = (value) => {
+    inspector.original(value, name); // do default
+    if (typeof value === 'function') { // handle function
+      const pre = document.createElement("pre");
+      pre.innerHTML = value.toString();
+      node.appendChild(pre);
+    }
+  };
+  container.appendChild(node);
+  return inspector;
+});
 ```
-<div id="notebook"></div>
