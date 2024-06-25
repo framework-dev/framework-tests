@@ -16,16 +16,21 @@ container.replaceChildren();
 new Runtime().module(notebook, name => {
   const node = document.createElement("div");
   const inspector = new Inspector(node);
-  inspector.original = inspector.fulfilled;
-  inspector.fulfilled = (value) => {
-    inspector.original(value, name); // do default
-    if (typeof value === 'function') { // handle function
+  
+  inspector.original = inspector.fulfilled; // preserve default fulfilled
+  
+  inspector.fulfilled = (value) => {  // override fulfilled
+    
+    inspector.original(value, name); // do default fulfilled
+
+    if (typeof value === 'function') { // handle functions only
       const pre = document.createElement("pre");
       pre.innerHTML = value.toString();
       node.appendChild(pre);
     }
   };
   container.appendChild(node);
+  
   return inspector;
 });
 ```
