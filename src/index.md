@@ -1,11 +1,14 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
+
 notebook: https://observablehq.com/@dhowe/test-embed-function
 
 ---
-
 <div id="notebook-div"></div>
 
 ```js
+import Prism from 'https://cdn.jsdelivr.net/npm/prism-es6@1.2.0/prism.min.js'
 import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@5/dist/runtime.js";
+
 import notebook from "https://api.observablehq.com/@dhowe/test-embed-function.js?v=4";
 
 let container = document.getElementById("notebook-div");
@@ -23,12 +26,16 @@ new Runtime().module(notebook, name => {
 
     if (typeof value === 'function') { // handle functions only
       const pre = document.createElement("pre");
-      pre.innerHTML = value.toString();
+      pre.className = 'language-javascript';
+      const code = document.createElement("code");
+      code.className = 'language-javascript';
+      code.innerHTML = value.toString();
+      pre.appendChild(code);
       node.appendChild(pre);
+      Prism.highlightElement(pre); // syntax highlight
     }
   };
   container.appendChild(node);
-  
   return inspector;
 });
 ```
