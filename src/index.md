@@ -4,9 +4,9 @@ This site is using a getNotebook() component to access all the cells of the note
 
 ---
 
-```js
-import define from "https://api.observablehq.com/@shadoof/nb4fw.js?v=3";
+```js echo
+import notebook from "https://api.observablehq.com/@shadoof/nb4fw.js?v=4";
 import { getNotebook } from "./components/getNotebook.js";
-getNotebook(define);
+getNotebook(notebook, document.getElementById("notebook-div"));
 ```
-<div id="notebook"></div>
+<div id="notebook-div"></div>
