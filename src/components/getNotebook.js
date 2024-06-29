@@ -37,7 +37,7 @@ function getNotebook(notebook, parent) {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
           } else {
-            // use json.stringify to format the object
+            // use JSON.stringify to format the object as a string
             code.innerHTML = `${name} = ${JSON.stringify(value, 0, 2)}`;
           }
           pre.appendChild(code);
