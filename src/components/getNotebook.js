@@ -12,7 +12,6 @@ function getNotebook(notebook, parent) {
 
     inspector.fulfilled = (value) => {  // override fulfilled
 
-      console.log("type: ", typeof value); // DEBUG
       let pre, code;
       if (!(value instanceof Element)) {
         // if not already an element then create elements for code highlighting
@@ -37,6 +36,8 @@ function getNotebook(notebook, parent) {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
           } else {
+            console.log("type:", typeof value, "value:", value); // DEBUG
+            console.log("notebook:", notebook);
             // for objects, this is best I can do so far
             // inspector.original() call get Observablehq to render
             // an inspectable object in the DOM. Here, I add what I
