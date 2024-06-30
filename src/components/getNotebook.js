@@ -12,6 +12,7 @@ function getNotebook(notebook, parent) {
 
     inspector.fulfilled = (value) => {  // override fulfilled
 
+      console.log(name, "type: ", typeof value, value); // DEBUG
       let pre, code;
       if (!(value instanceof Element)) {
         // if not already an element then create elements for code highlighting
@@ -36,16 +37,8 @@ function getNotebook(notebook, parent) {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
           } else {
-            console.log("type:", typeof value, "value:", value); // DEBUG
-            console.log("notebook:", notebook);
-            // for objects, this is best I can do so far
-            // inspector.original() call get Observablehq to render
-            // an inspectable object in the DOM. Here, I add what I
-            // can get of the definition, hightlighted, after what Observable renders
-            code.innerHTML = `${name} = ${value.toString()}`;
-            // I cannot yet find a way to highlight
-            // the initially-collapsed 'inspectable' version
-            // or code-block definitions/declarations
+            // use JSON.stringify to format the object as a string
+            code.innerHTML = `${name} = ${JSON.stringify(value, 0, 2)}`;
           }
           pre.appendChild(code);
           container.appendChild(pre);
