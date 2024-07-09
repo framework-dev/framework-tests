@@ -12,7 +12,7 @@ function getNotebook(notebook, parent) {
 
     inspector.fulfilled = (value) => {  // override fulfilled
 
-      console.log(name, "type: ", typeof value, value); // DEBUG
+      // console.log(name, "type: ", typeof value, value); // DEBUG
       let pre, code;
       if (!(value instanceof Element)) {
         // if not already an element then create elements for code highlighting
@@ -39,6 +39,7 @@ function getNotebook(notebook, parent) {
           } else {
             // use JSON.stringify to format the object as a string
             code.innerHTML = `${name} = ${JSON.stringify(value, 0, 2)}`;
+            console.log(name, value, _aMap()); // DEBUG
           }
           pre.appendChild(code);
           container.appendChild(pre);
@@ -55,7 +56,7 @@ function getNotebook(notebook, parent) {
     if (name) {
       // give them an id attribute (for #links)
       container.id = name;
-      // console.log("name:", name);
+      console.log("name:", name); // DEBUG
       // do not display them if their names start with underscore
       if (name.startsWith("_")) container.style.display = "none";
     }

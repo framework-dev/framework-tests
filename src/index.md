@@ -6,6 +6,7 @@ This site is using a getNotebook() component to access all the cells of the note
 
 ```js echo
 import notebook from "https://api.observablehq.com/@shadoof/nb4fw.js?v=4";
+console.log(notebook); // DEBUG
 import { getNotebook } from "./components/getNotebook.js";
 getNotebook(notebook, document.getElementById("notebook-div"));
 ```
