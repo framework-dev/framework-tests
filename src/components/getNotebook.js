@@ -26,6 +26,18 @@ function getNotebook(notebook, parent) {
         let valueCode = value.toString();
         // this allows for => arrow functions
         if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
+        console.log("before ƒ:", valueCode);
+        if (name.endsWith("ƒ")) {
+          let blkIdx = valueCode.indexOf("=>");
+          if (blkIdx > -1) {
+            valueCode = valueCode.substring(blkIdx + 3);
+          } else {
+            blkIdx = valueCode.indexOf("{");
+            console.log("non-arrow:", valueCode);
+            valueCode = valueCode.substring(blkIdx);
+          }
+          valueCode = name.substring(0, name.indexOf("ƒ")) + " = " + valueCode;
+        }
         code.innerHTML = valueCode;
         pre.appendChild(code);
         container.appendChild(pre);
@@ -36,14 +48,14 @@ function getNotebook(notebook, parent) {
           if (typeof value === "string" || typeof value === 'number' || typeof value === 'boolean') {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
-          } else {
-            // use JSON.stringify to format the object as a string
-            code.innerHTML = `${name} = ${JSON.stringify(value, 0, 2)}`;
-            console.log(name, value, _aMap()); // DEBUG
-          }
-          pre.appendChild(code);
-          container.appendChild(pre);
-          Prism.highlightElement(pre); // syntax highlight
+            pre.appendChild(code);
+            container.appendChild(pre);
+            Prism.highlightElement(pre); // syntax highlight
+          } // else {
+          //   // use JSON.stringify to format the object as a string
+          //   code.innerHTML = `${name} = ${JSON.stringify(value, 0, 2)}`;
+          //   console.log(name, value); // DEBUG
+          // }
         }
       }
       return inspector;
