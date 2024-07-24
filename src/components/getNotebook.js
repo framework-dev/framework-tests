@@ -13,33 +13,31 @@ function getNotebook(notebook, parent) {
     inspector.fulfilled = (value) => {  // override fulfilled
 
       // console.log(name, "type: ", typeof value, value); // DEBUG
-      let pre, code;
-      if (!(value instanceof Element)) {
-        // if not already an element then create elements for code highlighting
-        pre = document.createElement("pre");
-        pre.className = 'language-javascript';
-        code = document.createElement("code");
-        code.className = 'language-javascript';
-      }
+      // >>> create elements for code highlighting
+      let pre = document.createElement("pre");
+      pre.className = 'language-javascript';
+      let code = document.createElement("code");
+      code.className = 'language-javascript';
+      pre.appendChild(code);
+      // <<<
       // now parse the possibilities
       if (typeof value === 'function') {
         let valueCode = value.toString();
         // this allows for => arrow functions
         if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
-        console.log("before ƒ:", valueCode);
-        if (name.endsWith("ƒ")) {
+        // console.log("before ƒ:", valueCode); // DEBUG
+        if (name.startsWith("ƒ")) {
           let blkIdx = valueCode.indexOf("=>");
           if (blkIdx > -1) {
             valueCode = valueCode.substring(blkIdx + 3);
           } else {
             blkIdx = valueCode.indexOf("{");
-            console.log("non-arrow:", valueCode);
+            // console.log("non-arrow:", valueCode); // DEBUG
             valueCode = valueCode.substring(blkIdx);
           }
-          valueCode = name.substring(0, name.indexOf("ƒ")) + " = " + valueCode;
+          valueCode = name.substring(name.indexOf("ƒ") + 1) + " = " + valueCode;
         }
         code.innerHTML = valueCode;
-        pre.appendChild(code);
         container.appendChild(pre);
         Prism.highlightElement(pre); // syntax highlight
       } else {
@@ -48,14 +46,9 @@ function getNotebook(notebook, parent) {
           if (typeof value === "string" || typeof value === 'number' || typeof value === 'boolean') {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
-            pre.appendChild(code);
             container.appendChild(pre);
-            Prism.highlightElement(pre); // syntax highlight
-          } // else {
-          //   // use JSON.stringify to format the object as a string
-          //   code.innerHTML = `${name} = ${JSON.stringify(value, 0, 2)}`;
-          //   console.log(name, value); // DEBUG
-          // }
+            Prism.highlightElement(pre);
+          }
         }
       }
       return inspector;
@@ -63,12 +56,11 @@ function getNotebook(notebook, parent) {
 
     parent.append(container);
 
-    // TODO make these configuration options for this code
+    // TODO turn these into configuration options
     // for cells with defined names ...
     if (name) {
       // give them an id attribute (for #links)
       container.id = name;
-      console.log("name:", name); // DEBUG
       // do not display them if their names start with underscore
       if (name.startsWith("_")) container.style.display = "none";
     }
