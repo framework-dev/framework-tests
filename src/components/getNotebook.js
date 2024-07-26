@@ -26,14 +26,14 @@ function getNotebook(notebook, parent) {
         // the following handles for => arrow functions
         if (!valueCode.startsWith("function")) valueCode = `${name} = ${valueCode}`;
         if (name.startsWith("ƒ")) {
-          // based on a naming convention that allows the exposure of
-          // named cell definitions which are code blocks or expressions
-          // named call calls a function with same name prefaced by "ƒ"
-          // and this ƒfunction contains the code block or expression
+          // This code relies on a naming convention that allows the exposure of
+          // named cell definitions which are code blocks or expressions.
+          // The named call calls a function with same name prefaced by "ƒ"
+          // and this ƒfunction contains the code block or expression.
           let blkIdx = valueCode.indexOf("=>");
           if (blkIdx > -1) {
             // get the code block only for arrow functions
-            valueCode = valueCode.substring(blkIdx + 3);
+            valueCode = valueCode.substring(blkIdx + 2).trimStart();
           } else {
             blkIdx = valueCode.indexOf("{");
             // get the code block for other function defs
@@ -61,15 +61,20 @@ function getNotebook(notebook, parent) {
             Prism.highlightElement(pre);
           }
         }
-        // if the value was already an Element (md or html)
-        // it slips through to here, with default fulfilled
+        // If the value was a (literal) object it would slip through to here.
+        // If you want an object or array definition code-highlighted, then
+        // treat it as you would an expression (extra function using "ƒ" convention).
+        // If the value was already an Element (md or html)
+        // it slips through to here, with default fulfilled.
       }
       return inspector;
     };
 
     parent.append(container);
 
-    // TODO turn these into configuration options
+    // TODO make these into configuration options
+    // - add id attribute for links true/false
+    // - do not display elements derived from names prefixed by <char>
     // for cells with pre-defined names ...
     if (name) {
       // give them an id attribute (for #links)
