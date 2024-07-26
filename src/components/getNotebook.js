@@ -54,7 +54,7 @@ function getNotebook(notebook, parent) {
         // handle literal definitions
         inspector.original(value, name); // do default fulfilled
         if (!(value instanceof Element)) {
-          if (["string", "number", "boolean"].includes(typeof value)) {
+          if (["string", "number", "boolean", "bigint", "undefined", "null", "symbol"].includes(typeof value)) {
             code.innerHTML = container.innerHTML;
             container.innerHTML = "";
             container.appendChild(pre);
