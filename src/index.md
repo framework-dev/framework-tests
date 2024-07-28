@@ -15,7 +15,8 @@ A repo for this project is at https://github.com/framework-dev/framework-tests
 @shadoof, July 2024, with help from and thanks to @dhowe
 
 ---
-```js
+```js echo
+// some JavaScript in the Framework project’s index.md, for comparison
 import notebook from "https://api.observablehq.com/@shadoof/nb4fw.js?v=4";
 import { getNotebook } from "./components/getNotebook.js";
 getNotebook(notebook, document.getElementById("notebook-div"));
