@@ -64,7 +64,7 @@ function getNotebook(notebook, parent) {
         // if highlighted by Prism (would need js import and css)
         // Prism.highlightElement(code);
         hljs.highlightBlock(code);
-        console.log(button.parentElement.innerText);
+        // console.log(button.parentElement.innerText);
       } else {
         // handle literal definitions
         inspector.original(value, name); // do default fulfilled

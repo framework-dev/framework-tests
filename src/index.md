@@ -1,3 +1,40 @@
+```js echo
+console.log("readyState:", document.readyState);
+// -> "complete"
+document.onreadystatechange = () => {
+  // -> [never fires?]
+  console.log("no state change indicated by this");
+}
+// 1. npm run dev
+// 2. close browser window
+// 3. open a new tab
+// 4. type: http://127.0.0.1:3000/#anotherObject into browser
+//
+// actual undesired behavior:
+// - page opens at top
+// - clicking on page scrolls to cell (which has the div id)
+//   (? works because the div *does* exist after onclick is registered)
+//
+// desired behavior:
+// - page opens and the div with #id scrolls into view
+// with no document.onclick and, instead, its code
+// moved to a registered event that works!
+//
+document.onclick = () => {
+    let loc = window.location.href;
+    console.log("page:", loc); // DEBUG
+    let hpos = loc.indexOf("#");
+    if (hpos > -1) {
+      let id = loc.substring(hpos + 1);
+      console.log("scrolling to:", id); // DEBUG
+      document.getElementById(id).scrollIntoView();
+    }
+};
+// some JavaScript in the Framework project’s index.md, for comparison
+import notebook from "https://api.observablehq.com/@shadoof/nb4fw.js?v=4";
+import { getNotebook } from "./components/getNotebook.js";
+getNotebook(notebook, document.getElementById("notebook-div"));
+```
 # An Observable Framework Project that Embeds and Displays Highlighted Code from an Observable Notebook
 
 This site is using a `getNotebook.js` component to embed all the cells of the demonstration notebook at https://observablehq.com/@shadoof/nb4fw 
@@ -15,10 +52,4 @@ A repo for this project is at https://github.com/framework-dev/framework-tests
 @shadoof, July 2024, with help from and thanks to @dhowe
 
 ---
-```js echo
-// some JavaScript in the Framework project’s index.md, for comparison
-import notebook from "https://api.observablehq.com/@shadoof/nb4fw.js?v=4";
-import { getNotebook } from "./components/getNotebook.js";
-getNotebook(notebook, document.getElementById("notebook-div"));
-```
 <div id="notebook-div"></div>
